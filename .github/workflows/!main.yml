@@ -1,4 +1,4 @@
-ame: build mern image and push to docker hub
+name: build mern image and push to docker hub
 
 on:
   push:
