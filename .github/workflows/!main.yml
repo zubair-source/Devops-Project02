@@ -48,4 +48,4 @@ jobs:
         password: ${{secrets.DOCKER_PASSWORD}}
         repository: zubairsource/mern_nginx
         dockerfile: nginx/Dockerfile
-        tags: latests
+        tags: latest
