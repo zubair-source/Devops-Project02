@@ -1,0 +1,28 @@
+#   version: "3" 
+#  services: 
+#    frontend: 
+#      image: shoaib789/client 
+#      hostname: fe 
+#      networks:   
+#        - appnet 
+  
+  
+#    nodebackend:  
+#      image: shoaib789/server 
+#      hostname: be 
+#      networks:   
+#        - appnet 
+  
+  
+#    reverseproxy:  
+#      image: zubairsource/mern_nginx 
+#      ports:  
+#        - "80:80" 
+#      depends_on: 
+#        - nodebackend 
+#        - frontend 
+#      networks:   
+#        - appnet 
+  
+#  networks: 
+#    appnet:
