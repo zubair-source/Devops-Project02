@@ -5,53 +5,66 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-deploy-back:
-    name: server
+  build-and-deploy-nginx:
+    name: Push Docker Image to Docker Hub
     runs-on: ubuntu-latest
 
 
     steps:
-    - name: checkout code
-      uses: actions/checkout@v2
-    - name: build and push docker image
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{secrets.DOCKER_USERNAME}}
-        password: ${{secrets.DOCKER_PASSWORD}}
-        repository: zubairsource/social-app-backend
-        dockerfile: server/Dockerfile
-        tags: latest
-  build-and-deploy-front:
-    name: client
+      - name: check out the repo
+        uses: actions/checkout@v3
+      - name: log in docker
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./nginx
+          push: true
+          tags: zubairsource/social-app-nginx
+
+build-and-deploy-back:
+    name: Push Docker Image to Docker Hub
+    runs-on: ubuntu-latest
+    needs: build-and-deploy-nginx
+
+
+    steps:
+      - name: check out the repo
+        uses: actions/checkout@v3
+      - name: log in docker
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./server
+          push: true
+          tags: zubairsource/social-app-backend
+
+build-and-deploy-front:
+    name: Push Docker Image to Docker Hub
     runs-on: ubuntu-latest
     needs: build-and-deploy-back
 
 
     steps:
-    - name: checkout code
-      uses: actions/checkout@v2
-    - name: build and push docker image
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{secrets.DOCKER_USERNAME}}
-        password: ${{secrets.DOCKER_PASSWORD}}
-        repository: zubairsource/social-app-frontend
-        dockerfile: client/Dockerfile
-        tags: latest
-  build-and-deploy-nginx:
-    name: nginx
-    runs-on: ubuntu-latest
-    needs: build-and-deploy-front
-
-
-    steps:
-    - name: checkout code
-      uses: actions/checkout@v2
-    - name: build and push docker image
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{secrets.DOCKER_USERNAME}}
-        password: ${{secrets.DOCKER_PASSWORD}}
-        repository: zubairsource/social-app-nginx
-        dockerfile: nginx/Dockerfile
-        tags: latest
+      - name: check out the repo
+        uses: actions/checkout@v3
+      - name: log in docker
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./client
+          push: true
+          tags: zubairsource/social-app-frontend
