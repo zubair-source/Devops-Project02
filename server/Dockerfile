@@ -1,8 +1,6 @@
-FROM node:14.16.1-alpine3.13
-WORKDIR /api
-COPY server/package*.json ./
+FROM node:13-alpine
+RUN mkdir -p /home/app
 RUN npm install
-COPY server ./
-ENV NAME=subin
+COPY . /home/app
 EXPOSE 5000
-CMD ["npm","start"]
+CMD ["npm", "run", "start"]

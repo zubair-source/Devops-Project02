@@ -1,21 +1,21 @@
 version: "3" 
 services: 
    frontend: 
-     image: zubairsource/mern_client 
+     image: zubairsource/client 
      hostname: fe 
      networks:   
        - appnet 
   
   
    nodebackend:  
-     image: zubairsource/mern_server 
+     image: zubairsource/server 
      hostname: be 
      networks:   
        - appnet 
   
   
    reverseproxy:  
-     image: zubairsource/mern_nginx 
+     image: zubairsource/proxy 
      ports:  
        - "80:80" 
      depends_on: 

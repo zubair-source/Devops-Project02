@@ -1,8 +1,5 @@
-FROM node:14.16.1-alpine3.13
-WORKDIR /app
-COPY client/package*.json ./
+FROM node:13-alpine
+RUN mkdir -p /home/app
+COPY . /home/app
 RUN npm install
-COPY client ./
-ENV NAME=subin
-EXPOSE 3000
-CMD ["npm","start"]
+CMD ["npm", "start"]
