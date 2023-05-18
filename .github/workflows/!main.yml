@@ -11,22 +11,16 @@ jobs:
 
 
     steps:
-
-    
-    - name: log in docker
-      uses: docker/login-action@v1
+    - name: checkout code
+      uses: actions/checkout@v2
+    - name: build and push docker image
+      uses: docker/build-push-action@v1
       with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v2
-      with:
-        context: ./server
-        push: true
-        tags: zubairsource/mern_server
-
-
+        username: ${{secrets.DOCKER_USERNAME}}
+        password: ${{secrets.DOCKER_PASSWORD}}
+        repository: zubairsource/social-app-backend
+        dockerfile: server/Dockerfile
+        tags: latest
   build-and-deploy-front:
     name: client
     runs-on: ubuntu-latest
@@ -34,22 +28,16 @@ jobs:
 
 
     steps:
-
-
-    - name: log in docker
-      uses: docker/login-action@v1
+    - name: checkout code
+      uses: actions/checkout@v2
+    - name: build and push docker image
+      uses: docker/build-push-action@v1
       with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: ./client
-          push: true
-          tags: zubairsource/mern_client
-
-
+        username: ${{secrets.DOCKER_USERNAME}}
+        password: ${{secrets.DOCKER_PASSWORD}}
+        repository: zubairsource/social-app-frontend
+        dockerfile: client/Dockerfile
+        tags: latest
   build-and-deploy-nginx:
     name: nginx
     runs-on: ubuntu-latest
@@ -57,17 +45,13 @@ jobs:
 
 
     steps:
-
-
-    - name: log in docker
-      uses: docker/login-action@v1
+    - name: checkout code
+      uses: actions/checkout@v2
+    - name: build and push docker image
+      uses: docker/build-push-action@v1
       with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v2
-      with:
-          context: ./nginx
-          push: true
-          tags: zubairsource/mern_nginx
+        username: ${{secrets.DOCKER_USERNAME}}
+        password: ${{secrets.DOCKER_PASSWORD}}
+        repository: zubairsource/social-app-nginx
+        dockerfile: nginx/Dockerfile
+        tags: latest

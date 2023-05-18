@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  nginx:
+    restart: always
+    container_name: nginx
+    image: zubairsource/social-app-nginx:latest
+    ports:
+      - '80:80'
+    depends_on:
+      - client
+      - api
+    networks:
+      - socialapp-network
+  api:
+    container_name: api
+    image: zubairsource/social-app-backend:latest
+    environment:
+      - MONGODB_URL=mongo_url
+      - JWT_SECRET=sample
+      - PORT=5000
+    networks:
+      - socialapp-network
+    restart: always
+  client:
+    container_name: client
+    image: zubairsource/social-app-frontend:latest
+    networks:
+      - socialapp-network
+    restart: always
+
+networks:
+  socialapp-network:
+    
