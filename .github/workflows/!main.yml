@@ -1,34 +1,19 @@
-name: Publish Docker Image
+name: build mern image and push to docker hub
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  push_to_registry:
-    name: Push Docker Image to Docker Hub
+  build-and-deploy-back:
+    name: server
     runs-on: ubuntu-latest
 
 
     steps:
-      - name: check out the repo
-        uses: actions/checkout@v3
 
-      - name: log in docker
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: ./client
-          push: true
-          tags: zubairsource/client
-
-      - name: log in docker
+    
+    - name: log in docker
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -39,9 +24,42 @@ jobs:
         with:
           context: ./server
           push: true
-          tags: zubairsource/server
+          tags: zubairsource/mern_server
 
-      - name: log in docker
+
+  build-and-deploy-front:
+    name: client
+    runs-on: ubuntu-latest
+    needs: build-and-deploy-back
+
+
+    steps:
+
+
+    -- name: log in docker
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./client
+          push: true
+          tags: zubairsource/mern_client
+
+
+  build-and-deploy-nginx:
+    name: nginx
+    runs-on: ubuntu-latest
+    needs: build-and-deploy-front
+
+
+    steps:
+
+
+    - name: log in docker
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -52,4 +70,4 @@ jobs:
         with:
           context: ./nginx
           push: true
-          tags: zubairsource/nginx
+          tags: zubairsource/mern_nginx
