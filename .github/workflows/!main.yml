@@ -100,11 +100,11 @@ jobs:
         id: plan
         run: terraform plan
 
-      # - name: Terraform apply
-      #   run: terraform apply -auto-approve
+      - name: Terraform apply
+        run: terraform apply -auto-approve
 
-      # - name: Wait for 5 minutes
-      #   run: sleep 300
+      - name: Wait for 5 minutes
+        run: sleep 300
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve    
