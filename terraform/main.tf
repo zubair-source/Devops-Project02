@@ -133,7 +133,7 @@ resource "aws_lb_listener" "lb_listener" {
 
 # creating launch configuration
 resource "aws_launch_configuration" "project" {
-  image_id        = "ami-007855ac798b5175e"
+  image_id        = "ami-053b0d53c279acc90"
   instance_type   = "t2.micro"
   security_groups = ["${aws_security_group.docker_project_ec2.id}"]
   user_data       = <<EOF
@@ -172,9 +172,9 @@ services:
     container_name: api
     image: zubairsource/social-app-backend:latest
     environment:
-      - MONGODB_URL=mongo_url
+      - MONGO_URL='mongodb+srv://basit56700:BdulaAsitb56@cluster0.m0rnyrw.mongodb.net/?retryWrites=true&w=majority'
       - JWT_SECRET=sample
-      - PORT=5000
+      - PORT=3001
     networks:
       - socialapp-network
     restart: always
