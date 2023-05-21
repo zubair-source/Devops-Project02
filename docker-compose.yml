@@ -15,9 +15,9 @@ services:
     container_name: api
     image: zubairsource/social-app-backend:latest
     environment:
-      - MONGODB_URL=mongo_url
+      - MONGO_URL='mongodb+srv://basit56700:BdulaAsitb56@cluster0.m0rnyrw.mongodb.net/?retryWrites=true&w=majority'
       - JWT_SECRET=sample
-      - PORT=5000
+      - PORT=3001
     networks:
       - socialapp-network
     restart: always
